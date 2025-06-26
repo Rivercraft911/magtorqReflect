@@ -6,7 +6,7 @@ This setup allows us to log important data to both the console and a file.
 import logging
 import sys
 
-LOG_FILENAME = "wheel_test_log.txt"
+LOG_FILENAME = "mag_test_log.txt"
 
 def setup_logging():
     """

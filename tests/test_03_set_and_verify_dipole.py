@@ -1,10 +1,7 @@
 # tests/test_03_set_and_verify_dipole.py
 import logging
-import time
-import sys
-sys.path.append('..')
 
-from mtq_driver import MTQDriver, MTQMode, MTQCommunicationError
+from magtorquer.mtq_driver import MTQDriver, MTQCommunicationError
 from magtorquer.logging_config import setup_logging
 from magtorquer.config_mtq import SERIAL_PORT, BAUD_RATE, HOST_ADDRESS, MTQ_ADDRESS, SERIAL_TIMEOUT
 
