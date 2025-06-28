@@ -1,5 +1,6 @@
 # tests/test_03_set_and_verify_dipole.py
 import logging
+import time
 
 from magtorquer.mtq_driver import MTQDriver, MTQCommunicationError
 from magtorquer.logging_config import setup_logging

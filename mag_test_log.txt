@@ -1,8 +1,0 @@
-2025-06-26 16:57:04,599 - magtorquer.mtq_driver - INFO - Connecting to MTQ on /dev/cu.usbserial-BG00Q8TP @ 115200 bps …
-2025-06-26 16:57:04,603 - magtorquer.mtq_driver - INFO - Connection established.
-2025-06-26 16:57:04,603 - magtorquer.mtq_driver - DEBUG - TX: b'$2030040000:E0\n'
-2025-06-26 16:57:04,603 - __main__ - INFO - Ping          : PASSED
-2025-06-26 16:57:04,603 - magtorquer.mtq_driver - DEBUG - TX: b'$2030340000:33\n'
-2025-06-26 16:57:06,608 - magtorquer.mtq_driver - DEBUG - RX: b'\x00'
-2025-06-26 16:57:07,112 - magtorquer.mtq_driver - INFO - Serial connection closed.
-2025-06-26 16:57:07,113 - __main__ - ERROR - Communication error: Malformed packet: b'\x00'
