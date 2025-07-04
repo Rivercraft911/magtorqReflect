@@ -19,22 +19,18 @@ def main():
     try:
         driver.connect()
 
-        # Step 1: Ensure device is stopped (IDLE) before starting
         logger.info("--- Ensuring device is in IDLE mode ---")
         driver.stop()
         time.sleep(0.5)
 
-        # Step 2: Set the dipole moment
         logger.info(f"--- Setting dipole moment to {test_dipole_moment} mAm² ---")
         driver.set_dipole_moment(test_dipole_moment)
         time.sleep(0.5)
 
-        # Step 3: Start the device (activate the coil)
         logger.info("--- Starting device (activating coil) ---")
         driver.start()
         time.sleep(1) # Wait for the current to stabilize
 
-        # Step 4: Read back the measured dipole moment
         logger.info("--- Reading back measured dipole moment ---")
         measured_moment = driver.get_dipole_moment()
         if measured_moment is not None:
@@ -48,12 +44,10 @@ def main():
         else:
             logger.error("Set/Get Dipole Test: FAILED - could not read back moment")
 
-        # Step 5: Stop the device
         logger.info("--- Stopping device ---")
         driver.stop()
         time.sleep(0.5)
         
-        # Step 6: Verify it has stopped
         final_moment = driver.get_dipole_moment()
         if final_moment is not None and abs(final_moment) < 100.0:
              logger.info(f"Stop Test: PASSED (Dipole moment near zero: {final_moment} mAm²)")

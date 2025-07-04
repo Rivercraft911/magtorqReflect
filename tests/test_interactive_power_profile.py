@@ -36,12 +36,12 @@ class WatchdogPatter(threading.Thread):
         self.driver, self.stop_event, self.interval = driver, stop_event, interval_s
         self.name = "WatchdogPatter"
 
-    def run(self) -> None:  # noqa: D401  (imperative style)
+    def run(self) -> None:  
         logger.debug("Watchdog thread started.")
         while not self.stop_event.wait(self.interval):
             try:
                 self.driver.ping()
-            except MTQCommunicationError as exc:  # pragma: no cover  (debug aid)
+            except MTQCommunicationError as exc:  # pragma: no cover  (env‑specific)
                 logger.warning("Background ping failed: %s", exc)
         logger.debug("Watchdog thread stopped.")
 
@@ -53,13 +53,10 @@ class TestResult:
     measured_watts: float
 
     @property
-    def measured_moment_Am2(self) -> float:  # helper for plot conversion
+    def measured_moment_Am2(self) -> float: 
         return self.measured_moment_mAm2 / 1_000.0
 
-# Helper I/O
-
 def prompt_power_reading(setpoint: int) -> float:
-    """Ask user to type the power (W). Keeps asking until float parses."""
     while True:
         try:
             return float(input(f" >> Power at {setpoint:5d} mAm² (W): "))
@@ -69,7 +66,6 @@ def prompt_power_reading(setpoint: int) -> float:
 # Plotting
 
 def plot_results(results: list[TestResult]) -> None:
-    """Plot and save the power curve, showing wattage labels at each point."""
     # Sort results so the line is monotonic left→right
     results = sorted(results, key=lambda r: r.measured_moment_Am2)
 

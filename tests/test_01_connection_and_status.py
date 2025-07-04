@@ -10,7 +10,6 @@ from magtorquer.config_mtq import (
     SERIAL_TIMEOUT,
 )
 
-# You may need a logging_config.py file, or just use basicConfig
 # setup_logging()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -31,7 +30,6 @@ def main() -> None:
                 logger.error("WHO_AM_I      : FAILED - No response.")
                 return # Exit if the first command fails
 
-            # Now that we know communication works, test another command.
             status = drv.get_status()
             if status:
                 logger.info("Get Status    : PASSED (Status: %s)", status.name)

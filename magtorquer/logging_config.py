@@ -16,10 +16,6 @@ def setup_logging():
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)  # Capture all levels of logs
 
-    # --- Create a handler to write logs to a file ---
-    # The 'w' mode means the file is overwritten each time the script runs.
-    # This keeps the log file clean for each new test session.
-    # For long-term logging, you might change this to 'a' (append).
     file_handler = logging.FileHandler(LOG_FILENAME, mode='w')
     file_handler.setLevel(logging.DEBUG)  # Log everything to the file
 

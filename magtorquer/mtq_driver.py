@@ -25,9 +25,7 @@ from crc import Calculator, Configuration
 
 logger = logging.getLogger(__name__)
 
-# -----------------------------------------------------------------------------
-# --- Protocol Constants
-# -----------------------------------------------------------------------------
+# ----------------------- Protocol Constants -----------------------
 
 # CRC configuration (poly 0xEB, init 0x00, non‑reflected) – see Protocol §3
 _crc_cfg = Configuration(
@@ -36,9 +34,7 @@ _crc_cfg = Configuration(
 )
 CRC_CALCULATOR = Calculator(_crc_cfg)
 
-# -----------------------------------------------------------------------------
-# --- Data Types & Enums
-# -----------------------------------------------------------------------------
+# ----------------------- Data Types & Enums -----------------------
 
 @dataclass(frozen=True, slots=True)
 class IdentifyInfo:
@@ -62,12 +58,12 @@ class Command(Enum):
     """All available command IDs, combining General and MTQ-specific commands."""
     # -- Hyperion General Commands (Protocol Manual §5) --
     RESET             = 0x01
-    ACK               = 0x02  # Note: Handled implicitly by protocol, not user-sent
+    ACK               = 0x02  
     PING              = 0x04
     WHO_AM_I          = 0x10
     IDENTIFY          = 0x11
     GET_SERIAL_NO     = 0x12
-    GET_MODE          = 0x16  # Note: MTQ uses specific modes, but command is general
+    GET_MODE          = 0x16  
     SET_MODE          = 0x17
     # -- MTQ-800.15 Specific Commands (ICD Table 4) --
     GET_TEMPERATURE              = 0x20
@@ -81,11 +77,10 @@ class Command(Enum):
     GET_STATUS                   = 0x34
 
 class MTQCommunicationError(Exception):
-    """Raised on framing, CRC or transport issues."""
+    """Raised on framing, CRC or transpor issues."""
 
-# -----------------------------------------------------------------------------
-# --- Main Driver Class
-# -----------------------------------------------------------------------------
+# ----------------------- Main Driver Class -----------------------
+
 @dataclass(slots=True)
 class MTQDriver:
     """ Lightweight test‑driver for the AAC Hyperion MTQ800.15. """
@@ -160,7 +155,7 @@ class MTQDriver:
         logger.debug("TX -> %r", pkt)
         self.serial_conn.write(pkt)
         self.serial_conn.flush()
-        time.sleep(0.05)  # Robustness delay
+        time.sleep(0.05) # Allow time for the device to process the command
         if not expect_response: return None
         resp = self.serial_conn.readline()
         logger.debug("RX <- %r", resp)
@@ -169,9 +164,7 @@ class MTQDriver:
         if src != self.mtq_address: logger.warning(f"Response from unexpected address {src:#04x}")
         return resp_payload
 
-    # -------------------------------------------------------------------------
-    # --- High-Level API: General Hyperion Commands
-    # -------------------------------------------------------------------------
+    # ----------------------- High-Level API: General Hyperion Commands -----------------------
     def ping(self) -> None:
         """Sends a PING command to reset the device's watchdog timer."""
         self._transport(Command.PING, expect_response=False)
@@ -196,9 +189,8 @@ class MTQDriver:
         pl = self._transport(Command.GET_SERIAL_NO)
         return struct.unpack(">I", pl)[0] if pl else None
 
-    # -------------------------------------------------------------------------
-    # --- High-Level API: MTQ800.15 Specific Commands
-    # -------------------------------------------------------------------------
+    # ----------------------- High-Level API: MTQ800.15 Specific Commands -----------------------
+
     def get_status(self) -> Optional[MTQStatus]:
         """Gets the device status (OK or OVERCURRENT)."""
         pl = self._transport(Command.GET_STATUS)
